@@ -377,6 +377,23 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
               } else if (data["type"].includes("getSelectedText")) {
                 window.parent.postMessage(JSON.stringify({"type": "toDart: getSelectedText", "text": window.getSelection().toString()}), "*");
               }
+              if (data["type"].includes("insertSignature")) {
+                console.log('SIGNATURE: ' + data['signature']);
+                var node = document.getElementById('tmail-signature');
+                console.log('SIGNATURE_HAS_EXISTS: ' + node);
+                if (!node) {
+                  var nodeEditor = document.getElementsByClassName('note-editable')[0];
+                  console.log('NodeEditor: ' + nodeEditor.innerHTML);
+                  var divSignature = document.createElement('div');
+                  divSignature.setAttribute('id', 'tmail-signature');
+                  divSignature.innerHTML = data['signature'];
+                  nodeEditor.appendChild(divSignature);
+                  console.log('NEW_SIGNATURE: ' + nodeEditor.innerHTML);
+                } else {
+                  node.innerHTML = data['signature'];
+                  console.log('UPDATE_SIGNATURE: ' + node.innerHTML);
+                }
+              }
               $userScripts
             }
           }
